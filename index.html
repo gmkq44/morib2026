@@ -26,7 +26,7 @@
         <!-- Intro Section -->
         <section class="bg-white rounded-2xl p-5 shadow-sm mb-6 border border-blue-100">
             <h2 class="font-bold text-lg text-blue-800 mb-2 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="id-card-4 15.536L12 11.243l-3.536 3.536m7.072-7.072L12 3.414 8.464 6.928m7.072 0L12 10.465 8.464 6.928M12 21V11"></path></svg>
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 为什么选择这些日子？
             </h2>
             <p class="text-sm text-slate-600 leading-relaxed">
@@ -36,10 +36,10 @@
 
         <!-- Filter Tabs -->
         <div class="flex space-x-2 mb-6 overflow-x-auto pb-2" id="filter-container">
-            <button onclick="filterDates('all')" class="filter-btn active bg-blue-500 text-white px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-md">全部</button>
-            <button onclick="filterDates('best')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">✨ 黄金推荐</button>
-            <button onclick="filterDates('holiday')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">🎡 公共假期</button>
-            <button onclick="filterDates('sunday')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">📅 仅周日</button>
+            <button onclick="filterDates(this, 'all')" class="filter-btn active bg-blue-500 text-white px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-md">全部</button>
+            <button onclick="filterDates(this, 'best')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">✨ 黄金推荐</button>
+            <button onclick="filterDates(this, 'holiday')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">🎡 公共假期</button>
+            <button onclick="filterDates(this, 'sunday')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">📅 仅周日</button>
         </div>
 
         <!-- Dates List -->
@@ -136,14 +136,14 @@
             });
         }
 
-        function filterDates(category) {
+        function filterDates(btn, category) {
             // Update UI
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-500', 'text-white', 'shadow-md');
-                btn.classList.add('bg-white', 'text-slate-600', 'shadow-sm', 'border-slate-200');
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('bg-blue-500', 'text-white', 'shadow-md');
+                b.classList.add('bg-white', 'text-slate-600', 'shadow-sm', 'border-slate-200');
             });
-            event.target.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-            event.target.classList.add('bg-blue-500', 'text-white', 'shadow-md');
+            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+            btn.classList.add('bg-blue-500', 'text-white', 'shadow-md');
 
             if (category === 'all') {
                 renderDates(dateData);
