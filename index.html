@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Morib 赶海交互助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+        body { font-family: 'Noto Sans SC', sans-serif; background-color: #f0f9ff; }
+        .card-wave { background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%); }
+        .tide-high { border-left: 4px solid #3b82f6; }
+        .tide-best { border-left: 4px solid #f59e0b; background: #fffbeb; }
+    </style>
+</head>
+<body class="text-slate-800 pb-10">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-8 px-4 text-center shadow-lg sticky top-0 z-10">
+        <h1 class="text-2xl font-bold mb-2">🌊 2026 Morib 赶海黄金日历</h1>
+        <p class="text-blue-100 text-sm">雪兰莪 · 摩立海滩 | 假期与周日精选</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 mt-6">
+        
+        <!-- Intro Section -->
+        <section class="bg-white rounded-2xl p-5 shadow-sm mb-6 border border-blue-100">
+            <h2 class="font-bold text-lg text-blue-800 mb-2 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="id-card-4 15.536L12 11.243l-3.536 3.536m7.072-7.072L12 3.414 8.464 6.928m7.072 0L12 10.465 8.464 6.928M12 21V11"></path></svg>
+                为什么选择这些日子？
+            </h2>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                赶海的关键在于<b>“大退潮”</b>。通常在农历初一及十五之后的 2-3 天内，水位降得最低。此时 Morib 会露出大片泥滩，是挖掘贝类和捉小螃蟹的最佳时机。
+            </p>
+        </section>
+
+        <!-- Filter Tabs -->
+        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2" id="filter-container">
+            <button onclick="filterDates('all')" class="filter-btn active bg-blue-500 text-white px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-md">全部</button>
+            <button onclick="filterDates('best')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">✨ 黄金推荐</button>
+            <button onclick="filterDates('holiday')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">🎡 公共假期</button>
+            <button onclick="filterDates('sunday')" class="filter-btn bg-white text-slate-600 px-4 py-2 rounded-full text-sm whitespace-nowrap shadow-sm border border-slate-200">📅 仅周日</button>
+        </div>
+
+        <!-- Dates List -->
+        <div id="dates-list" class="space-y-4">
+            <!-- Items injected by JS -->
+        </div>
+
+        <!-- Equipment Checklist -->
+        <section class="mt-10 bg-white rounded-2xl p-6 shadow-sm border border-blue-100">
+            <h2 class="font-bold text-lg text-blue-800 mb-4">🧳 赶海必备清单</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <label class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="text-sm">溯溪鞋/旧球鞋</span>
+                </label>
+                <label class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="text-sm">小铲子/耙子</span>
+                </label>
+                <label class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="text-sm">水桶/网袋</span>
+                </label>
+                <label class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="text-sm">长袖防晒衣</span>
+                </label>
+                <label class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="text-sm">饮用水/零食</span>
+                </label>
+                <label class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="text-sm">备用换洗衣服</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- Safety Warning -->
+        <div class="mt-6 bg-red-50 border border-red-100 rounded-2xl p-5">
+            <h3 class="text-red-800 font-bold mb-2 flex items-center">
+                <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                安全警告
+            </h3>
+            <ul class="text-xs text-red-700 space-y-1 list-disc list-inside">
+                <li>Morib 泥地较软，请勿独自走向深水区。</li>
+                <li>水位一旦开始上涨（回潮），请务必在 15 分钟内上岸。</li>
+                <li>注意海蜇和尖锐贝壳，避免赤脚。</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const dateData = [
+            { date: '2026-01-18', day: '星期日', type: ['sunday', 'best'], lunar: '腊月初一', label: '大潮期', desc: '新月大潮，退潮水位极低。', time: '11:30 - 14:30' },
+            { date: '2026-02-01', day: '星期日', type: ['sunday', 'best'], lunar: '腊月十五', label: '大潮期', desc: '元宵前的大退潮，适合合家欢。', time: '11:00 - 14:00' },
+            { date: '2026-02-18', day: '星期三', type: ['holiday', 'best'], lunar: '正月初二', label: '农历新年', desc: '新年连假，初二潮汐依然理想。', time: '12:00 - 15:00' },
+            { date: '2026-03-20', day: '星期五', type: ['holiday'], lunar: '二月初二', label: '开斋节', desc: '开斋节首日，水位中等适合。', time: '13:00 - 16:00' },
+            { date: '2026-05-01', day: '星期五', type: ['holiday', 'best'], lunar: '三月十五', label: '劳动节', desc: '三天连假+十五大潮，黄金时段。', time: '11:00 - 14:00' },
+            { date: '2026-05-31', day: '星期日', type: ['sunday', 'holiday', 'best'], lunar: '四月十五', label: '卫塞节', desc: '大潮正日，也是公共假期。', time: '11:30 - 14:30' },
+            { date: '2026-06-01', day: '星期一', type: ['holiday', 'best'], lunar: '四月十六', label: '元首诞辰', desc: '连假最后一天，退潮依然显著。', time: '12:30 - 15:30' },
+            { date: '2026-08-31', day: '星期一', type: ['holiday'], lunar: '七月十九', label: '国庆日', desc: '水位稍退，适合下午休闲。', time: '14:00 - 17:00' },
+            { date: '2026-11-08', day: '星期日', type: ['sunday', 'holiday', 'best'], lunar: '九月廿九', label: '屠妖节', desc: '接近初一，适合长假尾声赶海。', time: '11:00 - 14:00' },
+            { date: '2026-12-25', day: '星期五', type: ['holiday'], lunar: '十一月十七', label: '圣诞节', desc: '年末假期，中午时段有退潮。', time: '12:00 - 15:00' }
+        ];
+
+        function renderDates(data) {
+            const listElement = document.getElementById('dates-list');
+            listElement.innerHTML = '';
+
+            data.forEach(item => {
+                const isBest = item.type.includes('best');
+                const cardClass = isBest ? 'tide-best shadow-md' : 'tide-high bg-white shadow-sm';
+                const tagClass = isBest ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700';
+
+                listElement.innerHTML += `
+                    <div class="p-4 rounded-xl transition-all duration-300 ${cardClass}">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">${item.date} (${item.day})</span>
+                                <h3 class="text-lg font-bold text-slate-800">${item.label || '赶海日'}</h3>
+                            </div>
+                            <span class="text-xs px-2 py-1 rounded-md font-bold ${tagClass}">
+                                ${item.lunar}
+                            </span>
+                        </div>
+                        <div class="flex items-center text-sm text-slate-600 mb-3">
+                            <svg class="w-4 h-4 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            黄金时段: <span class="font-bold text-blue-700 ml-1">${item.time}</span>
+                        </div>
+                        <p class="text-xs text-slate-500 italic">${item.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function filterDates(category) {
+            // Update UI
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-600', 'shadow-sm', 'border-slate-200');
+            });
+            event.target.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+            event.target.classList.add('bg-blue-500', 'text-white', 'shadow-md');
+
+            if (category === 'all') {
+                renderDates(dateData);
+            } else {
+                const filtered = dateData.filter(d => d.type.includes(category));
+                renderDates(filtered);
+            }
+        }
+
+        // Initial render
+        renderDates(dateData);
+    </script>
+</body>
+</html>
+
